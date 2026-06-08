@@ -1,446 +1,297 @@
 <!DOCTYPE html>
-
 <html lang="ja">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>今のあなたに贈る、心に寄り添う名言診断</title>
-
+    <title>THE QUOTE ─ 今のあなたを言語化する、言葉の処方箋</title>
     <style>
-
         :root {
-
-            --bg-color: #f0f4f8;
-
-            --card-color: #ffffff;
-
-            --primary-color: #4a90e2;
-
-            --text-color: #333333;
-
-            --accent-color: #ff6b6b;
-
+            /* グラデーション用の洗練されたダークカラー */
+            --bg-top: #0a0a0c;
+            --bg-bottom: #16161a;
+            /* すりガラス（ガラスモーフィズム）のベース色 */
+            --card-bg: rgba(22, 22, 26, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            
+            --primary-color: #3b82f6;  /* 鮮やかなネオンブルー */
+            --primary-glow: rgba(59, 130, 246, 0.3);
+            --text-color: #f4f4f5;     /* 上品なオフホワイト */
+            --sub-text: #71717a;       /* 落ち着いたグレー */
+            --accent-color: #f43f5e;   /* エッジの効いたローズレッド */
         }
 
         body {
-
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
-
-            background-color: var(--bg-color);
-
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-top), var(--bg-bottom));
             color: var(--text-color);
-
             margin: 0;
-
             padding: 20px;
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             min-height: 100vh;
-
+            letter-spacing: 0.06em;
         }
 
+        /* デザイン気質な高級感のあるカード枠 */
         .container {
-
-            max-width: 500px;
-
+            max-width: 480px;
             width: 100%;
-
-            background: var(--card-color);
-
-            border-radius: 16px;
-
-            padding: 30px;
-
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-
+            background: var(--card-bg);
+            backdrop-filter: blur(16px); /* 後ろをぼかす、すりガラスエフェクト */
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 45px 35px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
             text-align: center;
-
         }
 
-        h1 { font-size: 1.5rem; margin-bottom: 20px; color: var(--primary-color); }
+        h1 { 
+            font-size: 2rem; 
+            font-weight: 900; 
+            margin: 0 0 8px 0; 
+            color: var(--text-color); 
+            letter-spacing: 0.2em;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
 
+        .subtitle {
+            font-size: 0.75rem;
+            color: var(--sub-text);
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        /* 光るプログレスバー */
         .progress-bar {
-
             width: 100%;
-
-            height: 8px;
-
-            background: #e0e0e0;
-
-            border-radius: 4px;
-
-            margin-bottom: 25px;
-
+            height: 3px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 40px;
             overflow: hidden;
-
         }
 
         .progress {
-
             height: 100%;
-
-            background: var(--primary-color);
-
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            box-shadow: 0 0 8px var(--primary-color);
             width: 0%;
-
-            transition: width 0.3s ease;
-
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .question { font-size: 1.2rem; font-weight: bold; margin-bottom: 25px; text-align: left; line-height: 1.5; }
+        .question { 
+            font-size: 1.2rem; 
+            font-weight: 600; 
+            margin-bottom: 35px; 
+            text-align: left; 
+            line-height: 1.7;
+            color: #e4e4e7;
+        }
 
-        .options { display: flex; flex-direction: column; gap: 12px; }
+        .options { display: flex; flex-direction: column; gap: 14px; }
 
+        /* ミニマルで洗練された選択肢ボタン */
         .btn {
-
-            background: #f8f9fa;
-
-            border: 2px solid #e9ecef;
-
-            padding: 15px;
-
-            border-radius: 8px;
-
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #d4d4d8;
+            padding: 18px 22px;
+            border-radius: 12px;
             cursor: pointer;
-
-            font-size: 1rem;
-
+            font-size: 0.95rem;
             text-align: left;
-
-            transition: all 0.2s;
-
+            line-height: 1.5;
+            transition: all 0.25s ease;
         }
 
         .btn:hover {
-
-            background: #edf2f7;
-
+            background: rgba(59, 130, 246, 0.08);
             border-color: var(--primary-color);
-
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+            transform: translateY(-1px);
         }
 
-        /* 結果画面の装飾 */
-
-        .result-title { font-size: 1.1rem; color: #666; margin-bottom: 10px; }
-
-        .result-status { font-size: 1.6rem; font-weight: bold; color: var(--accent-color); margin-bottom: 30px; }
-
+        /* 結果画面 */
+        .result-title { font-size: 0.8rem; color: var(--sub-text); margin-bottom: 8px; letter-spacing: 0.2em; }
+        .result-status { font-size: 1.6rem; font-weight: 800; color: var(--accent-color); margin-bottom: 40px; letter-spacing: 0.05em; }
+        
         .quote-box {
-
-            background: #f8f9fa;
-
-            border-left: 5px solid var(--primary-color);
-
-            padding: 20px;
-
-            margin-bottom: 25px;
-
+            background: rgba(0, 0, 0, 0.2);
+            border-left: 2px solid var(--primary-color);
+            padding: 30px 25px;
+            margin-bottom: 40px;
             text-align: left;
-
-            border-radius: 0 8px 8px 0;
-
+            border-radius: 0 12px 12px 0;
+            box-shadow: inset 5px 0 20px rgba(0,0,0,0.2);
         }
-
-        .quote-text { font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; line-height: 1.6; }
-
-        .quote-author { font-size: 0.9rem; color: #666; text-align: right; }
-
+        
+        .quote-text { font-size: 1.3rem; font-weight: 700; margin-bottom: 20px; line-height: 1.8; color: #ffffff; }
+        .quote-author { font-size: 0.85rem; color: var(--sub-text); text-align: right; font-style: italic; }
+        
         .retry-btn {
-
-            background: var(--primary-color);
-
-            color: white;
-
+            background: var(--text-color);
+            color: var(--bg-top);
             border: none;
-
-            padding: 12px 30px;
-
-            border-radius: 25px;
-
-            font-size: 1rem;
-
+            padding: 14px 40px;
+            border-radius: 30px;
+            font-size: 0.9rem;
             cursor: pointer;
-
-            font-weight: bold;
-
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            transition: all 0.2s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
-        /* 広告表示用ダミースペース（ここに将来広告コードを貼る） */
+        .retry-btn:hover {
+            background: #ffffff;
+            transform: scale(1.03);
+            box-shadow: 0 12px 25px rgba(255,255,255,0.1);
+        }
 
+        /* デザインに溶け込むスマートな広告スペース */
         .ad-space {
-
-            margin-top: 25px;
-
-            padding: 15px;
-
-            background: #ebebeb;
-
-            border: 1px dashed #bbb;
-
-            font-size: 0.8rem;
-
-            color: #777;
-
-            border-radius: 6px;
-
+            margin-top: 45px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px dashed rgba(255, 255, 255, 0.05);
+            font-size: 0.75rem;
+            color: #52525b;
+            border-radius: 8px;
+            letter-spacing: 0.05em;
         }
-
     </style>
-
 </head>
-
 <body>
 
-
-
 <div class="container" id="quiz-container">
-
-    <!-- ここにクイズや結果がJavaScriptで動的に入ります -->
-
+    <!-- JavaScriptで動的に入ります -->
 </div>
 
-
-
 <script>
-
-// 10個の質問データ
-
 const questions = [
-
     { q: "朝、目が覚めた瞬間のあなたの気分に一番近いものは？", a: ["よし、やるぞ！とエネルギーがある", "あと5分…いや1時間寝かせて…", "今日やるべきことの不安が頭をよぎる", "いつも通りの日常が始まるなと冷静"], types: ["A", "B", "C", "D"] },
-
     { q: "目の前に「真っ白な自由帳」を渡されました。最初に何をする？", a: ["勢いよくアイデアを書き殴る", "何も書かずにそっと閉じる", "完璧な計画表を書き始める", "他人が何を書くか様子を見る"], types: ["A", "B", "C", "D"] },
-
     { q: "今のあなたの「心の残りHP」は何％くらい？", a: ["90%以上！充電満タン！", "15%以下…今にも消えそう", "50%前後。考え事が多くて重い", "表示は80%だけど急に切れそう"], types: ["A", "B", "C", "D"] },
-
     { q: "SNSで他人の「充実した日常」が目に留まりました。どう思う？", a: ["負けてられない、自分も頑張ろう！", "まぶしすぎて直視できない", "なぜこの人は上手くいってるのか分析する", "おめでとうと思いつつ小さくため息"], types: ["A", "B", "C", "D"] },
-
     { q: "お気に入りのコップを割ってしまいました。最初の思考は？", a: ["形あるものはいつか壊れる！次！", "ショックで片付ける気力が起きない", "あの時あそこに置かなければ…と後悔", "平静を装ってサッと片付ける"], types: ["A", "B", "C", "D"] },
-
     { q: "静かな部屋で一人の時間。何をしていたい？", a: ["筋トレや読書など生産的なこと", "天井をぼーっと眺めて抜け殻になる", "将来の不安や反省会が始まる", "タスクが頭から離れずソワソワする"], types: ["A", "B", "C", "D"] },
-
     { q: "どちらに行けばいいか分からない「分かれ道」。どうする？", a: ["面白そうな方へ直感で突き進む", "その場に座り込んで誰かを待つ", "スマホでリスクを徹底的に調べる", "迷っている姿を見せないよう平気な顔で進む"], types: ["A", "B", "C", "D"] },
-
     { q: "「最近、ちょっと疲れてない？」と声をかけられたら？", a: ["全然！むしろ絶好調だよ！と笑顔", "そうなの、本当にボロボロで…とこぼす", "どうしてそう見えた？と理由を気にする", "大丈夫、いつも通りだよと距離を置く"], types: ["A", "B", "C", "D"] },
-
     { q: "何日も雨が降り続いています。どう感じる？", a: ["雨の日の楽しみを見つけようとする", "ただただ気分が沈み、憂鬱になる", "タイミングの悪さを恨めしく思う", "体調が重くても無理して頑張る"], types: ["A", "B", "C", "D"] },
-
     { q: "今のあなたにとって、一番「心地いい」言葉は？", a: ["「あなたならできる！」（激励）", "「もう頑張らなくていいよ」（解放）", "「答えは一つじゃないよ」（柔軟）", "「そのままのあなたで素晴らしい」（肯定）"], types: ["A", "B", "C", "D"] }
-
 ];
 
-
-
-// タイプ別の名言データベース（毎回ここからランダムに選ばれる）
-
 const quotesDatabase = {
-
     A: [
-
         { text: "行動の動機が純粋であれば、結果を恐れる必要はない。", author: "マハトマ・ガンジー" },
-
         { text: "最大の危険は、目標が高すぎて失敗することではなく、低すぎる目標を達成することだ。", author: "ミケランジェロ" },
-
         { text: "世界を変えたいなら、まず自分がその変化になりなさい。", author: "ガンジー" }
-
     ],
-
     B: [
-
         { text: "休むことは、次の前進のための準備である。", author: "アントニー・チェーホフ" },
-
         { text: "何もしない時間を作ることは、心を耕すことと同じだ。", author: "ゲーテ" },
-
         { text: "飛べないなら走りなさい。走れないなら歩きなさい。歩けないなら這いなさい。とにかく前へ。", author: "キング牧師" }
-
     ],
-
     C: [
-
         { text: "明日は明日、今日は今日。悩んだって始まらないさ。", author: "スナフキン" },
-
         { text: "未来を予知する最良の方法は、未来を創ることだ。", author: "ピーター・ドラッカー" },
-
         { text: "心に迷いがあるときは、一番シンプルな道を選びなさい。", author: "アリストテレス" }
-
     ],
-
     D: [
-
         { text: "自分を愛することは、一生続くロマンスの始まりだ。", author: "オスカー・ワイルド" },
-
         { text: "誰もが完璧ではない。だから鉛筆には消しゴムがついているんだ。", author: "ウォルフ・ガング" },
-
         { text: "他人の目を気にするな。彼らは君のことなど大して考えていない。", author: "ココ・シャネル" }
-
     ]
-
 };
-
-
 
 const statusTitles = {
-
-    A: "エネルギー満タン！前進モード",
-
-    B: "お疲れ気味。省エネ休息モード",
-
-    C: "頭がぐるぐる。深呼吸モヤモヤモード",
-
-    D: "ポーカーフェイスな、がんばり屋モード"
-
+    A: "ENERGY // 前進モード",
+    B: "RECOVERY // 省エネ休息モード",
+    C: "THINKING // 深呼吸モヤモヤモード",
+    D: "POKERFACE // がんばり屋モード"
 };
 
-
-
 let currentQuestionIndex = 0;
-
 let scoreCounts = { A: 0, B: 0, C: 0, D: 0 };
 
-
-
 function renderQuiz() {
-
     const container = document.getElementById('quiz-container');
-
     
-
     if (currentQuestionIndex < questions.length) {
-
-        // クイズ画面の表示
-
         const qData = questions[currentQuestionIndex];
-
         const progressPercent = ((currentQuestionIndex) / questions.length) * 100;
-
         
-
         container.innerHTML = `
-
-            <h1>心の名言診断</h1>
-
+            <h1>THE QUOTE</h1>
+            <div class="subtitle">WORDS FOR YOUR SOUL</div>
             <div class="progress-bar"><div class="progress" style="width: ${progressPercent}%"></div></div>
-
-            <div class="question">Q${qData.questionNumber || currentQuestionIndex + 1}. ${qData.q}</div>
-
+            <div class="question">Q${currentQuestionIndex + 1}. ${qData.q}</div>
             <div class="options">
-
                 ${qData.a.map((ans, i) => `<button class="btn" onclick="nextQuestion('${qData.types[i]}')">${ans}</button>`).join('')}
-
             </div>
-
-            <div class="ad-space">【ここにGoogle AdSenseなどの広告が入る（1問ごとにPV加算！）】</div>
-
+            
+            <!-- 【広告枠：クイズ途中】 -->
+            <div class="ad-space">
+                <span style="color:#3f3f46; display:block; margin-bottom:5px; font-weight:700; letter-spacing:0.1em;">SPONSOR LINK</span>
+                <span style="color:#52525b;">ここにGoogle AdSense等の広告が入ります</span>
+            </div>
         `;
-
     } else {
-
-        // 結果画面の表示
-
-        // 一番多く選ばれたタイプを判定
-
         let maxType = 'A';
-
         let maxCount = 0;
-
         for (let type in scoreCounts) {
-
             if (scoreCounts[type] > maxCount) {
-
                 maxCount = scoreCounts[type];
-
                 maxType = type;
-
             }
-
         }
-
         
-
-        // ★ここがポイント：同じタイプでも、その中からランダムで名言を1つ選ぶロジック
-
         const typeQuotes = quotesDatabase[maxType];
-
         const randomQuote = typeQuotes[Math.floor(Math.random() * typeQuotes.length)];
-
         
-
         container.innerHTML = `
-
-            <h1>診断結果</h1>
-
-            <div class="result-title">今のあなたの状態は…</div>
-
+            <h1>THE QUOTE</h1>
+            <div class="subtitle">DIAGNOSIS COMPLETE</div>
+            <div class="result-title">ANALYSIS RESULT</div>
             <div class="result-status">${statusTitles[maxType]}</div>
-
             
-
             <div class="quote-box">
-
                 <div class="quote-text">「${randomQuote.text}」</div>
-
                 <div class="quote-author">— ${randomQuote.author}</div>
-
             </div>
-
             
-
-            <p style="font-size:0.9rem; color:#666; margin-bottom:20px;">※同じ選択肢を選んでも、その時の運気で届く言葉がランダムで変わります。また明日も引いてみてね。</p>
-
-            <button class="retry-btn" onclick="resetQuiz()">もう一度診断する</button>
-
-            <div class="ad-space">【結果画面の広告：ここにアフィリエイト本などを貼ると激アツ！】</div>
-
+            <p style="font-size:0.75rem; color:var(--sub-text); margin-bottom:30px;">※言葉はあなたの運気で変化します。また明日もお越しください。</p>
+            <button class="retry-btn" onclick="resetQuiz()">RETRY</button>
+            
+            <!-- 【広告枠：結果画面】 -->
+            <div class="ad-space">
+                <span style="color:#3f3f46; display:block; margin-bottom:5px; font-weight:700; letter-spacing:0.1em;">RECOMMEND</span>
+                <span style="color:#52525b;">ここにあなたへのおすすめ書籍広告を掲載できます</span>
+            </div>
         `;
-
     }
-
 }
-
-
 
 function nextQuestion(type) {
-
     scoreCounts[type]++;
-
     currentQuestionIndex++;
-
     renderQuiz();
-
 }
-
-
 
 function resetQuiz() {
-
     currentQuestionIndex = 0;
-
     scoreCounts = { A: 0, B: 0, C: 0, D: 0 };
-
     renderQuiz();
-
 }
 
-
-
-// 初回起動
-
 renderQuiz();
-
 </script>
 
-
-
 </body>
-
 </html>
 
