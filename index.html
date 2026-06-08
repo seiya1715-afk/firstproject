@@ -6,12 +6,9 @@
     <title>THE QUOTE ─ 今のあなたを言語化する、言葉の処方箋</title>
     <style>
         :root {
-            --bg-top: #0a0a0c;
-            --bg-bottom: #16161a;
-            --card-bg: rgba(22, 22, 26, 0.7);
-            --card-border: rgba(255, 255, 255, 0.08);
+            --card-bg: rgba(15, 15, 20, 0.65);
+            --card-border: rgba(255, 255, 255, 0.06);
             --primary-color: #3b82f6;  
-            --primary-glow: rgba(59, 130, 246, 0.3);
             --text-color: #f4f4f5;     
             --sub-text: #71717a;       
             --accent-color: #f43f5e;   
@@ -19,7 +16,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, var(--bg-top), var(--bg-bottom));
+            background-color: #030303;
             color: var(--text-color);
             margin: 0;
             padding: 20px;
@@ -28,28 +25,43 @@
             align-items: center;
             min-height: 100vh;
             letter-spacing: 0.06em;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 背景のアニメーションキャンバス */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
         }
 
         .container {
             max-width: 480px;
             width: 100%;
             background: var(--card-bg);
-            backdrop-filter: blur(16px); 
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
-            border-radius: 20px;
+            border-radius: 24px;
             padding: 45px 35px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05);
             text-align: center;
+            position: relative;
+            z-index: 10;
         }
 
         h1 { 
-            font-size: 2rem; 
+            font-size: 2.2rem; 
             font-weight: 900; 
             margin: 0 0 8px 0; 
             color: var(--text-color); 
-            letter-spacing: 0.2em;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            letter-spacing: 0.25em;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
         }
 
         .subtitle {
@@ -57,13 +69,13 @@
             color: var(--sub-text);
             margin-bottom: 35px;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.2em;
         }
 
         .progress-bar {
             width: 100%;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.05);
+            height: 2px;
+            background: rgba(255, 255, 255, 0.03);
             border-radius: 10px;
             margin-bottom: 40px;
             overflow: hidden;
@@ -72,7 +84,7 @@
         .progress {
             height: 100%;
             background: linear-gradient(90deg, #3b82f6, #60a5fa);
-            box-shadow: 0 0 8px var(--primary-color);
+            box-shadow: 0 0 12px var(--primary-color);
             width: 0%;
             transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -82,18 +94,18 @@
             font-weight: 600; 
             margin-bottom: 35px; 
             text-align: left; 
-            line-height: 1.7;
+            line-height: 1.8;
             color: #e4e4e7;
         }
 
         .options { display: flex; flex-direction: column; gap: 14px; }
 
         .btn {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             color: #d4d4d8;
             padding: 18px 22px;
-            border-radius: 12px;
+            border-radius: 14px;
             cursor: pointer;
             font-size: 0.95rem;
             text-align: left;
@@ -102,10 +114,10 @@
         }
 
         .btn:hover {
-            background: rgba(59, 130, 246, 0.08);
+            background: rgba(59, 130, 246, 0.06);
             border-color: var(--primary-color);
             color: #ffffff;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
             transform: translateY(-1px);
         }
 
@@ -113,13 +125,13 @@
         .result-status { font-size: 1.6rem; font-weight: 800; color: var(--accent-color); margin-bottom: 40px; letter-spacing: 0.05em; }
         
         .quote-box {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.3);
             border-left: 2px solid var(--primary-color);
             padding: 30px 25px;
             margin-bottom: 40px;
             text-align: left;
-            border-radius: 0 12px 12px 0;
-            box-shadow: inset 5px 0 20px rgba(0,0,0,0.2);
+            border-radius: 0 14px 14px 0;
+            box-shadow: inset 5px 0 30px rgba(0,0,0,0.3);
         }
         
         .quote-text { font-size: 1.3rem; font-weight: 700; margin-bottom: 20px; line-height: 1.8; color: #ffffff; }
@@ -127,7 +139,7 @@
         
         .retry-btn {
             background: var(--text-color);
-            color: var(--bg-top);
+            color: #000000;
             border: none;
             padding: 14px 40px;
             border-radius: 30px;
@@ -136,41 +148,105 @@
             font-weight: 700;
             letter-spacing: 0.1em;
             transition: all 0.2s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
 
         .retry-btn:hover {
             background: #ffffff;
             transform: scale(1.03);
-            box-shadow: 0 12px 25px rgba(255,255,255,0.1);
+            box-shadow: 0 12px 30px rgba(255,255,255,0.15);
         }
 
         .ad-space {
             margin-top: 45px;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px dashed rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px dashed rgba(255, 255, 255, 0.04);
             font-size: 0.75rem;
             color: #52525b;
-            border-radius: 8px;
+            border-radius: 12px;
             letter-spacing: 0.05em;
         }
     </style>
 </head>
 <body>
 
+<!-- 動く背景用のキャンバス -->
+<canvas id="bg-canvas"></canvas>
+
 <div class="container" id="quiz-container">
     <!-- JavaScriptで動的に入ります -->
 </div>
 
 <script>
-// 新しくなったエモくて深い5つの質問
+// 背景のアニメーションロジック（粒子エフェクト）
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
+
+window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+});
+
+const particles = [];
+const particleCount = 60; // 粒子の数
+
+for (let i = 0; i < particleCount; i++) {
+    particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 1.5 + 0.5,
+        speedX: (Math.random() - 0.5) * 0.3,
+        speedY: -Math.random() * 0.5 - 0.1, // 上に向かって静かに流れる
+        alpha: Math.random() * 0.5 + 0.2
+    });
+}
+
+function animate() {
+    ctx.clearRect(0, 0, width, height);
+    
+    // 深みのあるグラデーションのベース
+    const gradient = ctx.createLinearGradient(0, 0, 0, height);
+    gradient.addColorStop(0, '#060608');
+    gradient.addColorStop(1, '#121216');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+
+    // 粒子を描画して動かす
+    for (let i = 0; i < particleCount; i++) {
+        const p = particles[i];
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+        ctx.fill();
+
+        p.x += p.speedX;
+        p.y += p.speedY;
+
+        // 画面外に出たら下からリスポーン
+        if (p.y < -10) {
+            p.y = height + 10;
+            p.x = Math.random() * width;
+        }
+        if (p.x < -10 || p.x > width + 10) {
+            p.x = Math.random() * width;
+        }
+    }
+    requestAnimationFrame(animate);
+}
+animate();
+
+
+// クイズのデータ
 const questions = [
-    { q: "もし今のあなたの「心の色」を表現するなら、どれが一番近い？", a: ["真っ直ぐに燃える「情熱の赤」", "静かに深く沈む「真夜中の青」", "霧がかかったような「曖昧なグレー」", "周りを優しく照らす「木漏れ日の緑」"], types: ["A", "B", "C", "D"] },
-    { q: "ふと立ち止まったとき、あなたの足を引っ張っているものは何だと思う？", a: ["高すぎる目標へのプレッシャー", "身体と心に溜まった、言葉にできない疲れ", "過去の後悔や、未来への漠然とした不安", "周りの目を気にしすぎてしまう自分"], types: ["A", "B", "C", "D"] },
-    { q: "夜、静かな部屋。頭の中で鳴り響くのはどんな感情？", a: ["「もっとやれる、次はこうしよう」という焦燥", "「もう何も考えずに眠りたい」という渇望", "「これで合っているのかな」という迷い", "「今日もなんとか乗り切った」という静寂"], types: ["A", "B", "C", "D"] },
-    { q: "大切な人が落ち込んでいます。今のあなたがかけたい言葉は？", a: ["「君ならできるよ、応援してる！」", "「無理しないで、今は全部休もう」", "「答えを急がなくていい、一緒に悩もう」", "「そのままの君が、一番素敵だよ」"], types: ["A", "B", "C", "D"] },
-    { q: "今、あなたの心が一番求めている「贅沢」はどれ？", a: ["新しい挑戦に飛び込むスリル", "誰にも邪魔されない、圧倒的な深い眠り", "自分の選択に自信を持てる、確かな確信", "誰かに「がんばってるね」と認められること"], types: ["A", "B", "C", "D"] }
+    { q: "今のあなたの「HP（残りエネルギー）」をスマホの充電に例えると？", a: ["80%以上！まだまだ余裕で動ける", "20%以下…早く家で充電（帰宅）したい", "50%前後。色々と考えて頭が重い感じ", "充電マークは緑だけど、実は低電力モード"], types: ["A", "B", "C", "D"] },
+    { q: "目の前に「1時間、完全に自由に使える空き時間」ができたら？", a: ["やりたかった趣味や作業を進める", "ベッドに倒れ込んでSNSをぼーっと眺める", "今後のスケジュールや仕事の整理をする", "美味しいものを食べるか、お風呂にこもる"], types: ["A", "B", "C", "D"] },
+    { q: "SNSを見ていて、なんとなく「モヤッ」とする瞬間は？", a: ["周りがどんどん成果を出して焦るとき", "みんな楽しそうで、自分の日常が地味に見えるとき", "色んな人の愚痴や議論が目に入ってくるとき", "「いいね」の数がなんとなく気になるとき"], types: ["A", "B", "C", "D"] },
+    { q: "友達から「最近ちょっと疲れてない？」と心配されたら？", a: ["「全然！めっちゃ元気！」と笑顔で返す", "「そうなの、実は最近バタバタで…」とこぼす", "「え、そんな風に見える？」と理由を気にする", "「大丈夫だよ〜」と笑って話を流す"], types: ["A", "B", "C", "D"] },
+    { q: "今、一番「言われたら嬉しい言葉」はどれ？", a: ["「君なら絶対にできるよ！」（応援）", "「もう十分がんばったから休みな」（甘やかし）", "「焦らなくていい、マイペースでいこう」（安心）", "「いつも本当にありがとう」（感謝・肯定）"], types: ["A", "B", "C", "D"] }
 ];
 
 const quotesDatabase = {
@@ -197,7 +273,7 @@ const quotesDatabase = {
 };
 
 const statusTitles = {
-    A: "ENERGY // 前進モード",
+    A: "ENERGY // 前編モード",
     B: "RECOVERY // 省エネ休息モード",
     C: "THINKING // 深呼吸モヤモヤモード",
     D: "POKERFACE // がんばり屋モード"
